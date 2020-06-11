@@ -35,8 +35,10 @@ bird_group = pygame.sprite.Group()
 bird = Bird()
 bird_group.add(bird)
 
-while True:
 
+clock = pygame.time.Clock()
+while True:
+    clock.tick(30)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
