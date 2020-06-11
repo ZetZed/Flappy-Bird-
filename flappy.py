@@ -32,7 +32,7 @@ class Bird(pygame.sprite.Sprite):
         self.rect[1] += self.speed
 
     def bump(self): # Para o Bird ir para cima
-        self.rect[1] -= 200 # Para ele subir 200px
+        self.speed = - SPEED # Para ele subir
 
 
 pygame.init()
