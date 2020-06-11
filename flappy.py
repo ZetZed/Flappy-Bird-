@@ -14,6 +14,8 @@ class Bird(pygame.sprite.Sprite):
                        pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha(),
                        pygame.image.load('assets/sprites/bluebird-downflap.png').convert_alpha()]
 
+        self.speed = SPEED
+        
         self.current_image = 0 # a cada update vai gerar a proxima imagem do bird. Começando com a imagem 0
         
         self.image = pygame.image.load('assets/sprites/bluebird-upflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
@@ -27,7 +29,10 @@ class Bird(pygame.sprite.Sprite):
         self.image = self.images[self.current_image]
 
         #Update Height
-        self.rect[1] += SPEED
+        self.rect[1] += self.speed
+
+    def bump(self): # Para o Bird ir para cima
+        self.rect[1] -= 200 # Para ele subir 200px
 
 
 pygame.init()
@@ -47,6 +52,11 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit() 
+
+
+        if event.type == KEYDOWN: #Quando apertar alguma tecla
+            if event.key == K_SPACE: # Se a tecla for 'espaço'
+                bird.bump() # O pássaro faz 'bump', pula...
 
     screen.blit(BACKGROUND, (0,0)) #Para a imagem de fundo ficar aparecendo a toda atualização. Além disso passa uma tupla (0,0) informando a posição da tela que o canto superior esquerdo da imagem vai ficar. Para ficar no início..
 
