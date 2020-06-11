@@ -9,13 +9,21 @@ class Bird(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self) #Pra classe realizar operação de contrução do sprite internamente; Para inicializar
 
-        self.image = pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
+        self.images = [pygame.image.load('assets/sprites/bluebird-upflap.png').convert_alpha(),
+                       pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha(),
+                       pygame.image.load('assets/sprites/bluebird-downflap.png').convert_alpha()]
+
+        self.current_image = 0 # a cada update vai gerar a proxima imagem do bird. Começando com a imagem 0
+        
+        self.image = pygame.image.load('assets/sprites/bluebird-upflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
+        
         self.rect = self.image.get_rect() #rect = tupla com 4 informações. as 2 primeiras dizem onde está a imagem, as outras 2 dizem o tamanho.
         self.rect[0] = SCREEN_WIDTH / 2
         self.rect[1] = SCREEN_HEIGHT / 2
 
     def update(self):
-        pass
+        self.current_image = (self.current_image + 1) % 3
+        self.image = self.images[self.current_image]
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
