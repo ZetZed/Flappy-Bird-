@@ -3,6 +3,7 @@ from pygame.locals import *
 
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 800
+SPEED = 10 # VELOCIDADE INICIAL DO PÁSSARO. Para ele ir caindo com o tempo.
 
 class Bird(pygame.sprite.Sprite):
 
@@ -17,13 +18,17 @@ class Bird(pygame.sprite.Sprite):
         
         self.image = pygame.image.load('assets/sprites/bluebird-upflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
         
-        self.rect = self.image.get_rect() #rect = tupla com 4 informações. as 2 primeiras dizem onde está a imagem, as outras 2 dizem o tamanho.
+        self.rect = self.image.get_rect() #rect = retângulo = tupla com 4 informações. as 2 primeiras dizem onde está a imagem, as outras 2 dizem o tamanho.
         self.rect[0] = SCREEN_WIDTH / 2
         self.rect[1] = SCREEN_HEIGHT / 2
 
     def update(self):
         self.current_image = (self.current_image + 1) % 3
         self.image = self.images[self.current_image]
+
+        #Update Height
+        self.rect[1] += SPEED
+
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -41,7 +46,7 @@ while True:
     clock.tick(30)
     for event in pygame.event.get():
         if event.type == QUIT:
-            pygame.quit()
+            pygame.quit() 
 
     screen.blit(BACKGROUND, (0,0)) #Para a imagem de fundo ficar aparecendo a toda atualização. Além disso passa uma tupla (0,0) informando a posição da tela que o canto superior esquerdo da imagem vai ficar. Para ficar no início..
 
