@@ -11,7 +11,8 @@ class Bird(pygame.sprite.Sprite):
 
         self.image = pygame.image.load('assets/sprites/bluebird-midflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
         self.rect = self.image.get_rect() #rect = tupla com 4 informações. as 2 primeiras dizem onde está a imagem, as outras 2 dizem o tamanho.
-        print(self.rect)
+        self.rect[0] = SCREEN_WIDTH / 2
+        self.rect[1] = SCREEN_HEIGHT / 2
 
     def update(self):
         pass
