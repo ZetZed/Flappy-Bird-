@@ -24,7 +24,8 @@ class Bird(pygame.sprite.Sprite):
         self.current_image = 0 # a cada update vai gerar a proxima imagem do bird. Começando com a imagem 0
         
         self.image = pygame.image.load('assets/sprites/bluebird-upflap.png').convert_alpha()  # convert_alpha = Faz o programa entender os pixels transparentes
-        
+        self.mask = pygame.mask.from_surface(self.image)
+
         self.rect = self.image.get_rect() #rect = retângulo = tupla com 4 informações. as 2 primeiras dizem onde está a imagem, as outras 2 dizem o tamanho.
         self.rect[0] = SCREEN_WIDTH / 2
         self.rect[1] = SCREEN_HEIGHT / 2
@@ -46,8 +47,10 @@ class Ground(pygame.sprite.Sprite):
     def __init__(self,xpos):
         pygame.sprite.Sprite.__init__(self)
 
-        self.image = pygame.image.load('assets/sprites/base.png')
+        self.image = pygame.image.load('assets/sprites/base.png').convert_alpha()
         self.image = pygame.transform.scale(self.image, (GROUND_WIDTH, GROUND_HEIGHT))
+
+        self.mask = pygame.mask.from_surface(self.image)
 
         self.rect = self.image.get_rect()
         self.rect[0] = xpos
@@ -101,3 +104,8 @@ while True:
     ground_group.draw(screen)
 
     pygame.display.update()
+
+    if pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask): #collide_mask = coloca em todos os pixels do sprite que são transparente e coloca '0' e os que tem alguma cor '1' 
+        #Game Over
+        input()
+        break
