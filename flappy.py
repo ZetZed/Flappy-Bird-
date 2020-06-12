@@ -7,6 +7,9 @@ SPEED = 10 # VELOCIDADE INICIAL DO PÁSSARO. Para ele ir caindo com o tempo.
 GRAVITY = 1
 GAME_SPEED = 10 # GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
 
+GROUND_WIDTH = 2 * SCREEN_WIDTH
+GROUND_HEIGHT = 100
+
 class Bird(pygame.sprite.Sprite):
 
     def __init__(self):
@@ -40,17 +43,21 @@ class Bird(pygame.sprite.Sprite):
 
 class Ground(pygame.sprite.Sprite):
 
-    def __init__(self, width, height):
+    def __init__(self,xpos):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = pygame.image.load('assets/sprites/base.png')
-        self.image = pygame.transform.scale(self.image, (width, height))
+        self.image = pygame.transform.scale(self.image, (GROUND_WIDTH, GROUND_HEIGHT))
 
         self.rect = self.image.get_rect()
-        self.rect[1] = SCREEN_HEIGHT - height
+        self.rect[0] = xpos
+        self.rect[1] = SCREEN_HEIGHT - GROUND_HEIGHT
 
     def update(self):
         self.rect[0] -= GAME_SPEED # rect[0] = x . GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
+
+def is_off_screen(sprite): # Para verificar se sprite está fora da tela.
+    return sprite.rect[0] < - (sprite.rect[2])# Para ver se a posição x é menor que menos o tamanho dele.
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -63,8 +70,9 @@ bird = Bird()
 bird_group.add(bird)
 
 ground_group = pygame.sprite.Group()
-ground = Ground(2 * SCREEN_WIDTH, 100)
-ground_group.add(ground)
+for i in range(2):
+    ground = Ground(GROUND_WIDTH * i)
+    ground_group.add(ground)
 
 clock = pygame.time.Clock()
 while True:
@@ -79,6 +87,12 @@ while True:
                 bird.bump() # O pássaro faz 'bump', pula...
 
     screen.blit(BACKGROUND, (0,0)) #Para a imagem de fundo ficar aparecendo a toda atualização. Além disso passa uma tupla (0,0) informando a posição da tela que o canto superior esquerdo da imagem vai ficar. Para ficar no início..
+
+    if is_off_screen(ground_group.sprites()[0]):
+        ground_group.remove(ground_group.sprites()[0])
+
+        new_ground = Ground(GROUND_WIDTH - 20)
+        ground_group.add(new_ground)
 
     bird_group.update()
     ground_group.update()
