@@ -47,7 +47,7 @@ class Ground(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (width, height))
 
         self.rect = self.image.get_rect()
-        #self.rect[1] = SCREEN_HEIGHT - height
+        self.rect[1] = SCREEN_HEIGHT - height
 
     def update(self):
         self.rect[0] -= GAME_SPEED # rect[0] = x . GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
