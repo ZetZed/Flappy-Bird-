@@ -5,6 +5,7 @@ SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 800
 SPEED = 10 # VELOCIDADE INICIAL DO PÁSSARO. Para ele ir caindo com o tempo.
 GRAVITY = 1
+GAME_SPEED = 10 # GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
 
 class Bird(pygame.sprite.Sprite):
 
@@ -46,6 +47,7 @@ class Ground(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (width, height))
 
         self.rect = self.image.get_rect()
+        #self.rect[1] = SCREEN_HEIGHT - height
 
     def update(self):
         self.rect[0] -= GAME_SPEED # rect[0] = x . GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
@@ -61,7 +63,7 @@ bird = Bird()
 bird_group.add(bird)
 
 ground_group = pygame.sprite.Group()
-ground = Ground(SCREEN_WIDTH, 100)
+ground = Ground(2 * SCREEN_WIDTH, 100)
 ground_group.add(ground)
 
 clock = pygame.time.Clock()
