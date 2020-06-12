@@ -150,12 +150,14 @@ while True:
     pipe_group.update()
 
     bird_group.draw(screen) #Desenhar todo mundo que está no grupo de bird..
-    ground_group.draw(screen)
     pipe_group.draw(screen)
+    ground_group.draw(screen)
+    
 
     pygame.display.update()
 
-    if pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask): #collide_mask = coloca em todos os pixels do sprite que são transparente e coloca '0' e os que tem alguma cor '1' 
+    if (pygame.sprite.groupcollide(bird_group, ground_group, False, False, pygame.sprite.collide_mask) or #collide_mask = coloca em todos os pixels do sprite que são transparente e coloca '0' e os que tem alguma cor '1' 
+       pygame.sprite.groupcollide(bird_group, pipe_group, False, False, pygame.sprite.collide_mask)): 
         #Game Over
         input()
         break
