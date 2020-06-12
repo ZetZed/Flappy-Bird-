@@ -37,6 +37,18 @@ class Bird(pygame.sprite.Sprite):
     def bump(self): # Para o Bird ir para cima
         self.speed = - SPEED # Para ele subir
 
+class Ground(pygame.sprite.Sprite):
+
+    def __init__(self, width, height):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.image = pygame.image.load('assets/sprites/base.png')
+        self.image = pygame.transform.scale(self.image, (width, height))
+
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        self.rect[0] -= GAME_SPEED # rect[0] = x . GAME_SPEED = Define tanto a velocidade do 'chão' como dos 'canos'
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -48,6 +60,9 @@ bird_group = pygame.sprite.Group()
 bird = Bird()
 bird_group.add(bird)
 
+ground_group = pygame.sprite.Group()
+ground = Ground(SCREEN_WIDTH, 100)
+ground_group.add(ground)
 
 clock = pygame.time.Clock()
 while True:
@@ -64,7 +79,9 @@ while True:
     screen.blit(BACKGROUND, (0,0)) #Para a imagem de fundo ficar aparecendo a toda atualização. Além disso passa uma tupla (0,0) informando a posição da tela que o canto superior esquerdo da imagem vai ficar. Para ficar no início..
 
     bird_group.update()
+    ground_group.update()
 
     bird_group.draw(screen) #Desenhar todo mundo que está no grupo de bird..
+    ground_group.draw(screen)
 
     pygame.display.update()
