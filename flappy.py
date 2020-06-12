@@ -4,6 +4,7 @@ from pygame.locals import *
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 800
 SPEED = 10 # VELOCIDADE INICIAL DO PÁSSARO. Para ele ir caindo com o tempo.
+GRAVITY = 1
 
 class Bird(pygame.sprite.Sprite):
 
@@ -27,6 +28,8 @@ class Bird(pygame.sprite.Sprite):
     def update(self):
         self.current_image = (self.current_image + 1) % 3
         self.image = self.images[self.current_image]
+
+        self.speed += GRAVITY
 
         #Update Height
         self.rect[1] += self.speed
